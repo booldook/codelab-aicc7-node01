@@ -1,0 +1,23 @@
+{
+  "name": "_0902-node-01",
+  "version": "1.0.0",
+  "description": "- 정보를 제공하는 기술",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/booldook/codelab-aicc7-node01.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/booldook/codelab-aicc7-node01/issues"
+  },
+  "homepage": "https://github.com/booldook/codelab-aicc7-node01#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
