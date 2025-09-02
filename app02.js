@@ -1,8 +1,12 @@
 const express = require("express")
+const cors = require("cors")
 const app = express()
 
 /** Server Init **/
 app.listen(3000)
+
+/** CORS **/
+app.use(cors())
 
 /** Static Routing **/
 app.use("/", express.static("./public"))
