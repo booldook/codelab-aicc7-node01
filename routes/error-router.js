@@ -1,4 +1,11 @@
 module.exports = (err, req, res, next) => {
   const status = err?.status || 500
-  res.status(status).json({ code: status, message: err.message })
+  res
+    .status(status)
+    .json({ success: "FAIL", error: { cod: status, msg: err.message } })
 }
+
+/** API규칙
+ * 성공 => { success: "OK", data: {} }
+ * 실패 => { success: "FAIL", error: { cod, msg } }
+ */
