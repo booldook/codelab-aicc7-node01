@@ -20,9 +20,5 @@ app.use("/", express.static("./public"))
 app.use("/shop", shopRouter)
 app.use("/book", bookRouter)
 
-app.get("/err", (req, res, next) => {
-  next(new Error("에러발생"))
-})
-
 app.use(notFoundRouter)
 app.use(errorRouter)
