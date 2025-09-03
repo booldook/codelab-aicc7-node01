@@ -24,9 +24,7 @@
     "cors": "^2.8.5",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "http-errors": "^2.0.0"
-  },
-  "devDependencies": {
+    "http-errors": "^2.0.0",
     "cross-env": "^10.0.0",
     "dotenv": "^17.2.2"
   }
