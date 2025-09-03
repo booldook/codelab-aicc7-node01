@@ -17,8 +17,8 @@ app.use("/mw", mw01, (req, res, next) => {
   res.status(200).json({ mw01: req.mw01 })
 })
 
-app.use("/mw2", mw02("temp"), (req, res, next) => {
-  res.status(200).json({ mw02: req.temp })
+app.use("/mw2", mw01, mw02("temp"), (req, res, next) => {
+  res.status(200).json({ mw01: req.mw01, mw02: req.temp })
 })
 
 app.use("/normal", (req, res, next) => {
