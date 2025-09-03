@@ -12,6 +12,8 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use("/", express.static("./public"))
 app.get("/books", (req, res) => {
-  const ejs = { title: "도서리스트" }
+  const ejs = {}
+  ejs.title = "도서리스트"
+  ejs.books = books
   res.status(200).render("book/list", ejs)
 })

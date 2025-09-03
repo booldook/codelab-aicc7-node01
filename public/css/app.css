@@ -1,0 +1,14 @@
+.containers {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+.containers .book-tbl {
+  width: 100%;
+  border: 1px solid #ccc;
+}
+.book-tbl th,
+.book-tbl td {
+  padding: 0.5em;
+  border-bottom: 1px solid #ccc;
+}

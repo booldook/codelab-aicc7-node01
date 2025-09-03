@@ -1,3 +1,20 @@
 <%- include("../inc/head") %>
-<div class="book-wrapper">여기가 도서리스트</div>
+<div class="book-wrapper">
+  <table class="book-tbl">
+    <thead>
+      <th>번호</th>
+      <th>도서명</th>
+      <th>설명</th>
+    </thead>
+    <tbody>
+      <% for(const book of books) { %>
+      <tr>
+        <td><%= book.id %></td>
+        <td><%= book.title %></td>
+        <td><%= book.content %></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
 <%- include("../inc/foot") %>
