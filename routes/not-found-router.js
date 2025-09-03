@@ -1,10 +1,5 @@
-const express = require("express")
-const createError = require("http-errors")
-const path = require("path")
-const router = express.Router()
-
-router.use((req, res, next) => {
-  next(createError(404))
-})
-
-module.exports = router
+module.exports = (req, res, next) => {
+  const err = new Error("NOT_FOUND")
+  err.status = 404
+  next(err)
+}

@@ -21,11 +21,7 @@ app.use("/shop", shopRouter)
 app.use("/book", bookRouter)
 
 app.get("/err", (req, res, next) => {
-  try {
-    throw new Error("오류 발생")
-  } catch (err) {
-    next(createError(err))
-  }
+  next(new Error("에러발생"))
 })
 
 app.use(notFoundRouter)

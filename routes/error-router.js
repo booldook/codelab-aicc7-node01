@@ -1,10 +1,4 @@
-const express = require("express")
-const createError = require("http-errors")
-const path = require("path")
-const router = express.Router()
-
-router.use((req, res, next, error) => {
-  res.status(500).json({ success: "FAIL", error })
-})
-
-module.exports = router
+module.exports = (err, req, res, next) => {
+  const status = err?.status || 500
+  res.status(status).json({ code: status, message: err.message })
+}
