@@ -1,20 +1,21 @@
-/* 라우터 분리 */
 require("./common/module/dotenv")()
 const express = require("express")
 const app = express()
 const path = require("path")
+const cors = require("cors")
 const notFoundRouter = require("./common/error/not-found-mw")
 const errorRouter = require("./common/error/error-mw")
 app.listen(process.env.port)
 app.set("view engine", "ejs")
 app.set("views", path.resolve(__dirname, "./views"))
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use("/", express.static("./public"))
 
 const shopRouter = require("./routes/shop-router")
 const bookRouter = require("./routes/book-router")
 
-app.use("/", express.static("./public"))
 app.use("/shop", shopRouter)
 app.use("/book", bookRouter)
 
