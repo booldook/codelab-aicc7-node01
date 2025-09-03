@@ -1,13 +1,8 @@
 /* 라우터 분리 */
-const path = require("path")
-const dotenv = require("dotenv")
-const envFile =
-  process.env.NODE_ENV === "production" ? ".env.production" : ".env"
-dotenv.config({ path: path.resolve(__dirname, envFile) })
-
-console.log(process.env)
+require("./modules/dotenv")()
 const express = require("express")
 const app = express()
+const path = require("path")
 const mw01 = require("./middlewares/mw01")
 const mw02 = require("./middlewares/mw02")
 app.listen(process.env.port)
