@@ -28,5 +28,8 @@
     "express": "^5.1.0",
     "http-errors": "^2.0.0",
     "mysql2": "^3.14.4"
+  },
+  "devDependencies": {
+    "sqlstring": "^2.3.3"
   }
 }
