@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { bookList } = require("../services/mysql/book-svc")
+const { bookList } = require(`../services/${process.env.DBMS}/book-svc`)
 
 // /book, /book/1, /book?page=1
 router.get("/{:id}", bookList(), async (req, res, next) => {
