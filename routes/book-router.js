@@ -1,16 +1,10 @@
 const express = require("express")
 const router = express.Router()
-const { pool } = require("../common/module/mysql-conn")
-const error = require("../common/error/error-util")
+const { bookList } = require("../services/mysql/book-svc")
 
-router.get("/", async (req, res, next) => {
-  try {
-    const sql = `SELECT * FROM book ORDER BY id DESC`
-    const [rs] = await pool.execute(sql)
-    res.status(200).json({ success: "OK", data: { list: rs || [] } })
-  } catch (err) {
-    next(error("BAD_PARAMS"))
-  }
+router.get("/", bookList(), async (req, res, next) => {
+  const list = req.rs
+  res.status(200).json({ success: "OK", data: { list } })
 })
 
 module.exports = router
