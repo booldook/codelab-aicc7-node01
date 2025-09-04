@@ -33,18 +33,18 @@ const bookList = ({ field = "id", sort = "DESC" } = {}) => {
 const bookCreate = () => {
   return async (req, res, next) => {
     try {
-      const {
-        title,
-        content = "",
-        writer = "unknown",
-        publish_d = "0000-00-00",
-      } = req.body
+      const { title, content, writer, publish_d } = req.body
       const sql = ` 
         INSERT INTO book
           (title, content, writer, publish_d)
         VALUES
           (?, ?, ?, ?)`
-      const [rs] = await pool.execute(sql, [title, content, writer, publish_d])
+      const [rs] = await pool.execute(sql, [
+        title,
+        content || "",
+        writer || "unknown",
+        publish_d || "0000-00-00",
+      ])
       req.rs = rs
       next()
     } catch (err) {
