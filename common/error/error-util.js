@@ -1,7 +1,7 @@
 const error = (errCode) => {
   if (Array.isArray(errCode)) {
     // express-validator Error
-    const err = new Error("파라메터가 잘못되었습니다.")
+    const err = new Error("유효성 검사 실패")
     err.status = 400
     err.data = errCode
     return err

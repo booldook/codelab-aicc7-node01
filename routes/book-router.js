@@ -15,12 +15,13 @@ router.get("/{:id}", bookList(), async (req, res, next) => {
   res.status(200).json({ success: "OK", data: { list } })
 })
 
-router.post("/", bookCreateValidation, bookCreate(), async (req, res, next) => {
-  const errors = validationResult(req)
-  if (errors.isEmpty()) {
-    return res.status(200).json({ success: "OK" })
+router.post(
+  "/",
+  bookCreateValidation(),
+  bookCreate(),
+  async (req, res, next) => {
+    res.status(200).json({ success: "OK" })
   }
-  next(error(errors.array()))
-})
+)
 
 module.exports = router
