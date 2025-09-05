@@ -1,6 +1,7 @@
 const error = require("../../common/error/error-util")
 const { pool } = require("../../common/module/mysql-conn")
 const sqlstring = require("sqlstring")
+const { body, validationResult } = require("express-validator")
 
 // const formattedSql = sqlstring.format(sql, [])
 // console.log(formattedSql)
@@ -31,6 +32,7 @@ const bookList = ({ field = "id", sort = "DESC" } = {}) => {
 }
 
 const bookCreate = () => {
+  const bookValidation = [body("")]
   return async (req, res, next) => {
     try {
       const { title, content, writer, publish_d } = req.body
