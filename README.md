@@ -103,3 +103,31 @@ app.get(
   }
 )``
 ```
+
+## WSL2 설치 후 redis-server 실행
+
+```bash
+# linux 패키지 현행화
+sudo apt update
+sudo apt upgrade
+sudo apt-get update
+sudo apt-get upgrade
+
+# redis-server 설치
+sudo apt install redis-server
+sudo apt-get install redis-server
+
+# redis-server 시작
+sudo systemctl start redis-server
+sudo service redis-server start
+
+# redis-server 중지
+sudo systemctl stop redis-server
+sudo service redis-server stop
+
+# redis-server 자동 실행
+sudo systemctl enable redis-server
+
+# redis-server 실행 상태 확인
+sudo systemctl status redis-server
+```
