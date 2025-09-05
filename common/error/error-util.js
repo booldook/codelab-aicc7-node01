@@ -1,17 +1,26 @@
 const error = (errCode) => {
-  let message = "UNKNOWN ERROR"
-  let code = 500
-  switch (errCode) {
-    case "BAD_PARAMS":
-      message = "파라메터가 잘못되었습니다."
-      code = 400
-      break
-    default:
-      break
+  if (Array.isArray(errCode)) {
+    // express-validator Error
+    const err = new Error("파라메터가 잘못되었습니다.")
+    err.status = 400
+    err.data = errCode
+    return err
+  } else {
+    // my Error
+    let message = "UNKNOWN ERROR"
+    let code = 500
+    switch (errCode) {
+      case "BAD_PARAMS":
+        message = "파라메터가 잘못되었습니다."
+        code = 400
+        break
+      default:
+        break
+    }
+    const err = new Error(message)
+    err.status = code
+    return err
   }
-  const err = new Error(message)
-  err.status = code
-  return err
 }
 
 module.exports = error

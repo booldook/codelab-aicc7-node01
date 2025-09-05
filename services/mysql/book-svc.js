@@ -1,7 +1,6 @@
 const error = require("../../common/error/error-util")
 const { pool } = require("../../common/module/mysql-conn")
 const sqlstring = require("sqlstring")
-const { body, validationResult } = require("express-validator")
 
 // const formattedSql = sqlstring.format(sql, [])
 // console.log(formattedSql)
@@ -32,21 +31,15 @@ const bookList = ({ field = "id", sort = "DESC" } = {}) => {
 }
 
 const bookCreate = () => {
-  const bookValidation = [body("")]
   return async (req, res, next) => {
     try {
       const { title, content, writer, publish_d } = req.body
       const sql = ` 
-        INSERT INTO book
-          (title, content, writer, publish_d)
-        VALUES
-          (?, ?, ?, ?)`
-      const [rs] = await pool.execute(sql, [
-        title,
-        content || "",
-        writer || "unknown",
-        publish_d || "0000-00-00",
-      ])
+          INSERT INTO book
+            (title, content, writer, publish_d)
+          VALUES
+            (?, ?, ?, ?)`
+      const [rs] = await pool.execute(sql, [title, content, writer, publish_d])
       req.rs = rs
       next()
     } catch (err) {
