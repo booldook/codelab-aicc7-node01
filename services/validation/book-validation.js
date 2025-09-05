@@ -5,8 +5,8 @@ const bookCreateValidation = () => {
   return [
     body("title").notEmpty().escape(),
     body("writer").notEmpty().escape(),
-    body("content").optional().escape(),
-    body("publish_d").optional().isDate(),
+    body("content").optional({ checkFalsy: true }).escape(),
+    body("publish_d").optional({ checkFalsy: true }).isDate(),
     (req, res, next) => {
       const err = validationResult(req)
       if (err.isEmpty()) next()

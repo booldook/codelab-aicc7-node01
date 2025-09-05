@@ -39,10 +39,16 @@ const bookCreate = () => {
             (title, content, writer, publish_d)
           VALUES
             (?, ?, ?, ?)`
-      const [rs] = await pool.execute(sql, [title, content, writer, publish_d])
+      const [rs] = await pool.execute(sql, [
+        title,
+        content,
+        writer,
+        publish_d || null,
+      ])
       req.rs = rs
       next()
     } catch (err) {
+      console.log(err)
       next(error("BAD_PARAMS"))
     }
   }
