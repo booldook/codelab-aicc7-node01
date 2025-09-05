@@ -42,7 +42,7 @@ const bookCreate = () => {
       const [rs] = await pool.execute(sql, [
         title,
         content,
-        writer,
+        writer || null,
         publish_d || null,
       ])
       req.rs = rs

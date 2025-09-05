@@ -4,7 +4,7 @@ const error = require("../../common/error/error-util")
 const bookCreateValidation = () => {
   return [
     body("title").notEmpty().escape(),
-    body("writer").notEmpty().escape(),
+    body("writer").optional({ checkFalsy: true }).escape(),
     body("content").optional({ checkFalsy: true }).escape(),
     body("publish_d").optional({ checkFalsy: true }).isDate(),
     (req, res, next) => {
