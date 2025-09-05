@@ -15,9 +15,11 @@ app.use("/", express.static("./public"))
 
 const shopRouter = require("./routes/shop-router")
 const bookRouter = require("./routes/book-router")
+const authRouter = require("./routes/auth-router")
 
 app.use("/shop", shopRouter)
 app.use("/book", bookRouter)
+app.use("/auth", authRouter)
 
 app.use(notFoundRouter)
 app.use(errorRouter)
