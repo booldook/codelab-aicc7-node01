@@ -5,7 +5,8 @@ const jwt = require("jsonwebtoken")
 const sqlstring = require("sqlstring")
 const Redis = require("ioredis")
 
-const userList = ({ field = "id", sort = "DESC" } = {}) => {
+// TODO :: refreshToken 갱신
+const refreshToken = () => {
   return async (req, res, next) => {
     next()
   }
@@ -85,7 +86,7 @@ const loginUser = () => {
           )
           const redis = new Redis()
           redis.set(`RT:${signData.usrId}`, refreshToken)
-          req.user = { data: userData, accessToken, refreshToken }
+          req.users = { user: userData, accessToken, refreshToken }
           return next()
         }
       }
@@ -97,4 +98,4 @@ const loginUser = () => {
   }
 }
 
-module.exports = { createUser, loginUser }
+module.exports = { createUser, loginUser, refreshToken }

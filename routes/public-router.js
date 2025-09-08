@@ -3,7 +3,11 @@ const router = express.Router()
 const {
   joinCreateValidation,
 } = require("../services/validation/join-validation")
-const { createUser, loginUser } = require("../services/mysql/public-svc")
+const {
+  createUser,
+  loginUser,
+  refreshToken,
+} = require("../services/mysql/public-svc")
 const error = require("../common/error/error-util")
 
 // TODO :: 추후 구현
@@ -39,7 +43,11 @@ router.post("/join", joinCreateValidation(), createUser(), (req, res, next) => {
  *   2-2. 프론트 다시 1-1
  */
 router.post("/login", loginUser(), (req, res, next) => {
-  res.status(200).json({ success: "OK", data: req.user })
+  res.status(200).json({ success: "OK", data: req.users })
+})
+
+router.post("/refresh", refreshToken(), (req, res, next) => {
+  res.status(200).json({ success: "OK", data: req.data })
 })
 
 module.exports = router
