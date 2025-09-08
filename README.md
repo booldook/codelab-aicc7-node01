@@ -155,3 +155,20 @@ sudo systemctl status redis-server
 
 - Public API - 회원가입, 로그인, 토큰갱신 + 그 외 비회원 접근 API
 - Private API - 인증된 사용자(회원)만 접근 가능한 API
+
+## user table scheme
+
+```sql
+CREATE TABLE `user` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `usr_id` VARCHAR(16) NOT NULL,
+  `usr_pw` VARCHAR(255) NOT NULL,
+  `usr_nm` VARCHAR(255) NOT NULL,
+  `usr_email` VARCHAR(255) NOT NULL,
+  `usr_lv` TINYINT NOT NULL DEFAULT 1,
+  `created_dt` DATETIME NOT NULL DEFAULT now(),
+  PRIMARY KEY (`id`)
+)
+COLLATE='utf8mb4_general_ci'
+;
+```
