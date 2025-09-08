@@ -1,3 +1,19 @@
+host="127.0.0.1"
+port="3000"
+
+DBMS= "MYSQL"
+DB_HOST="localhost"
+DB_PORT=3306
+DB_USER="root"
+DB_PASS="000000"
+DB_NAME="shop"
+DB_LIMIT=10
+
+SALT_RND=7
+SALT_JWT="fkd_sd-jFLk864w"
+EXP_ACC_JWT="10m"
+EXP_REF_JWT="3h"
+
 # 백엔드
 
 - 정보를 제공하는 기술
