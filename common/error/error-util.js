@@ -14,6 +14,10 @@ const error = (errCode) => {
         message = "파라메터가 잘못되었습니다."
         code = 400
         break
+      case "EXIST_USER":
+        message = "기존 회원 정보가 있습니다."
+        code = 209
+        break
       default:
         break
     }

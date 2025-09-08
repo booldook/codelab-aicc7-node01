@@ -4,6 +4,7 @@ const {
   joinCreateValidation,
 } = require("../services/validation/join-validation")
 const { createUser } = require("../services/mysql/public-svc")
+const error = require("../common/error/error-util")
 
 // TODO :: 추후 구현
 router.get("/", (req, res, next) => {
