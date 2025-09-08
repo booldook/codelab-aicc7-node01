@@ -18,3 +18,15 @@ INSERT INTO book
     VALUES
       ('별주부전', '토끼의 간을 용왕이...');
 
+CREATE TABLE `user` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `usr_id` VARCHAR(16) NOT NULL,
+  `usr_pw` VARCHAR(255) NOT NULL,
+  `usr_nm` VARCHAR(255) NOT NULL,
+  `usr_email` VARCHAR(255) NOT NULL,
+  `usr_lv` TINYINT NOT NULL DEFAULT 1,
+  `created_dt` DATETIME NOT NULL DEFAULT now(),
+  PRIMARY KEY (`id`)
+)
+COLLATE='utf8mb4_general_ci'
+;

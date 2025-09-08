@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/booldook/codelab-aicc7-node01#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "cross-env": "^10.0.0",
     "dotenv": "^17.2.2",
@@ -28,7 +29,10 @@
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "http-errors": "^2.0.0",
-    "mysql2": "^3.14.4"
+    "ioredis": "^5.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.4",
+    "redis": "^5.8.2"
   },
   "devDependencies": {
     "sqlstring": "^2.3.3"
