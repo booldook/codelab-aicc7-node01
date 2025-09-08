@@ -131,3 +131,27 @@ sudo systemctl enable redis-server
 # redis-server 실행 상태 확인
 sudo systemctl status redis-server
 ```
+
+## 인증/인가
+
+- 인증(Authentication) - 본인확인(로그인)
+- 인가(Authorization)- 특정 서비스 접근 제어(로그인 후 권한)
+
+### 백엔드
+
+- 회원가입
+  - 아이디/패스워드 + 이름, 이메일, 전화번호
+  - 패스워드 암호화(단방향) - bcrypt
+- 회원로그인(인증)
+  - id(email)/pw -> DB에서 조회
+  - 적합한 회원이면 -> client에 accessToken(3~5분), refreshToken(15분 ~ 3시간) 발급
+  - token은 jwt(Json Web Token)로 생성
+  - JsonWebToken의 장점: 위/변조가 불가능하다.
+  - refreshToken은 redis 저장
+- Client -> API요청시 Token을 Header에 실어서 보낸다.
+  - Header영역에 표준으로 Authorization 항목에 bearer Token으로 보낸다.
+
+### api(Application Provider Interface)정책
+
+- Public API - 회원가입, 로그인, 토큰갱신 + 그 외 비회원 접근 API
+- Private API - 인증된 사용자(회원)만 접근 가능한 API

@@ -1,6 +1,10 @@
 const express = require("express")
 const router = express.Router()
+const {
+  joinCreateValidation,
+} = require("../services/validation/join-validation")
 
+// TODO :: 추후 구현
 router.get("/", (req, res, next) => {
   res.status(200).json({ success: "OK" })
 })
@@ -13,7 +17,7 @@ router.get("/", (req, res, next) => {
  * 4. 회원 저장
  * 5. success: "OK"
  */
-router.post("/join", (req, res, next) => {
+router.post("/join", joinCreateValidation(), (req, res, next) => {
   res.status(200).json({ success: "OK" })
 })
 
