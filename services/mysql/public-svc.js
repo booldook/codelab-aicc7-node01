@@ -48,4 +48,23 @@ const createUser = () => {
   }
 }
 
+const loginUser = () => {
+  return async (req, res, next) => {
+    try {
+      const { usrId, usrPw } = req.body
+      const sql = `SELECT * FROM user WHERE usr_id=? AND usr_pw=?`
+      const [rs] = await pool.execute(sql, [usrId, usrPw])
+      if (rs[0]) {
+        // 로그인성공
+        // TODO :: Token생성 -> Redis(RT저장) -> user+TK리턴
+        return next()
+      }
+      return next(error("LOGIN_FAIL"))
+    } catch (err) {
+      console.log(err)
+      return next(error("BAD_PARAMS"))
+    }
+  }
+}
+
 module.exports = { createUser }

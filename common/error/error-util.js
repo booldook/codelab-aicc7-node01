@@ -18,6 +18,10 @@ const error = (errCode) => {
         message = "기존 회원 정보가 있습니다."
         code = 209
         break
+      case "LOGIN_FAIL":
+        message = "아이디와 패스워드를 확인하세요."
+        code = 403
+        break
       default:
         break
     }
