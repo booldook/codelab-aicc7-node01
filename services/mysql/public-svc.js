@@ -17,7 +17,7 @@ const createUser = () => {
       const [rs] = await pool.execute(sql, [usrId, usrEmail])
       if (rs[0].count > 0) {
         // 기존회원존재
-        next(error("EXIST_USER"))
+        return next(error("EXIST_USER"))
       }
       // 회원가입
       const usrPwHash = await bcrypt.hash(usrPw, Number(process.env.SALT_RND))
@@ -40,10 +40,10 @@ const createUser = () => {
         usrEmail,
       ])
       req.rs = rsInsert
-      next()
+      return next()
     } catch (err) {
       console.log(err)
-      next(error("BAD_PARAMS"))
+      return next(error("BAD_PARAMS"))
     }
   }
 }
