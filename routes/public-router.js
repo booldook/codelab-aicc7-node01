@@ -3,6 +3,7 @@ const router = express.Router()
 const {
   joinCreateValidation,
 } = require("../services/validation/join-validation")
+const { createUser } = require("../services/mysql/public-svc")
 
 // TODO :: 추후 구현
 router.get("/", (req, res, next) => {
@@ -17,7 +18,7 @@ router.get("/", (req, res, next) => {
  * 4. 회원 저장
  * 5. success: "OK"
  */
-router.post("/join", joinCreateValidation(), (req, res, next) => {
+router.post("/join", joinCreateValidation(), createUser(), (req, res, next) => {
   res.status(200).json({ success: "OK" })
 })
 

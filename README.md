@@ -172,3 +172,7 @@ CREATE TABLE `user` (
 COLLATE='utf8mb4_general_ci'
 ;
 ```
+
+### 생활코딩 Database
+
+[생활코딩DB](https://opentutorials.org/course/3162)

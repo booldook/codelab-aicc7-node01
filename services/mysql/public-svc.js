@@ -12,19 +12,9 @@ const createUser = () => {
   return async (req, res, next) => {
     try {
       const { usrId, usrPw, usrNm, usrEmail } = req.body
-      const sql = `SELECT Count()`
-
-      const sql = ` 
-          INSERT INTO book
-            (title, content, writer, publish_d)
-          VALUES
-            (?, ?, ?, ?)`
-      const [rs] = await pool.execute(sql, [
-        title,
-        content,
-        writer || null,
-        publish_d || null,
-      ])
+      const sql = `SELECT COUNT(id) AS count FROM user WHERE usr_id = ? OR usr_email = ?`
+      const [rs] = await pool.execute(sql, [usrId, usrEmail])
+      console.log(rs)
       req.rs = rs
       next()
     } catch (err) {
@@ -34,4 +24,4 @@ const createUser = () => {
   }
 }
 
-module.exports = { bookList, bookCreate }
+module.exports = { createUser }
