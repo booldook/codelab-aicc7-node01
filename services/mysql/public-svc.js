@@ -1,7 +1,9 @@
 const error = require("../../common/error/error-util")
 const { pool } = require("../../common/module/mysql-conn")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 const sqlstring = require("sqlstring")
+const Redis = require("ioredis")
 
 const userList = ({ field = "id", sort = "DESC" } = {}) => {
   return async (req, res, next) => {
@@ -52,12 +54,40 @@ const loginUser = () => {
   return async (req, res, next) => {
     try {
       const { usrId, usrPw } = req.body
-      const sql = `SELECT * FROM user WHERE usr_id=? AND usr_pw=?`
-      const [rs] = await pool.execute(sql, [usrId, usrPw])
+      const sql = `SELECT * FROM user WHERE usr_id=?`
+      const [rs] = await pool.execute(sql, [usrId])
       if (rs[0]) {
-        // 로그인성공
-        // TODO :: Token생성 -> Redis(RT저장) -> user+TK리턴
-        return next()
+        console.log(rs[0])
+        const compare = await bcrypt.compare(usrPw, rs[0].usr_pw)
+        if (compare) {
+          // 로그인 성공
+          // TODO :: bcrypt compare(o) -> Token생성(o) -> Redis(RT저장) -> user+TK리턴
+          const signData = {
+            id: rs[0].id,
+            usrId: rs[0].usr_id,
+          }
+          const userData = {
+            ...signData,
+            usrNm: rs[0].usr_nm,
+            usrEmail: rs[0].usr_email,
+            usrLv: rs[0].usr_lv,
+            usrDt: rs[0].created_dt,
+          }
+          const accessToken = jwt.sign(
+            { data: signData },
+            process.env.SALT_JWT,
+            { expiresIn: process.env.EXP_ACC_JWT }
+          )
+          const refreshToken = jwt.sign(
+            { data: signData },
+            process.env.SALT_JWT,
+            { expiresIn: process.env.EXP_REF_JWT }
+          )
+          const redis = new Redis()
+          redis.set(`RT:${signData.usrId}`, refreshToken)
+          req.user = { data: userData, accessToken, refreshToken }
+          return next()
+        }
       }
       return next(error("LOGIN_FAIL"))
     } catch (err) {
@@ -67,4 +97,4 @@ const loginUser = () => {
   }
 }
 
-module.exports = { createUser }
+module.exports = { createUser, loginUser }
