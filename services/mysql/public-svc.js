@@ -24,7 +24,7 @@ const refreshToken = () => {
         next(error("TOKEN_VERIFY_FAIL"))
       }
     } catch (err) {
-      next(error(err, 401))
+      next(error(err, 403))
     }
     next()
   }
@@ -75,12 +75,12 @@ const loginUser = () => {
           const signData = {
             id: rs[0].id,
             usrId: rs[0].usr_id,
-          }
-          const userData = {
-            ...signData,
             usrNm: rs[0].usr_nm,
             usrEmail: rs[0].usr_email,
             usrLv: rs[0].usr_lv,
+          }
+          const userData = {
+            ...signData,
             usrDt: rs[0].created_dt,
           }
           const { accessToken, refreshToken } = updateToken(signData)

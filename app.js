@@ -20,6 +20,7 @@ const { isApi } = require("./middlewares/auth-mw")
 
 app.use("/shop", isApi(), shopRouter)
 app.use("/book", isApi(), bookRouter)
+// app.use("/admin", isAdmin(), publicRouter)
 app.use("/public", publicRouter)
 
 app.use(notFoundRouter)

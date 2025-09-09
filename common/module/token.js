@@ -1,6 +1,7 @@
 const Redis = require("ioredis")
 const jwt = require("jsonwebtoken")
 
+// 토큰 갱신
 const updateToken = (signData) => {
   const accessToken = jwt.sign({ data: signData }, process.env.SALT_JWT, {
     expiresIn: process.env.EXP_ACC_JWT,
@@ -14,6 +15,7 @@ const updateToken = (signData) => {
   return { accessToken, refreshToken }
 }
 
+// 리프래시 토큰 검증
 const isVerifyRefresh = async (refreshToken) => {
   const clientTokenValid = jwt.verify(refreshToken, process.env.SALT_JWT)
   const usrId = clientTokenValid?.data?.usrId || ""
@@ -24,6 +26,7 @@ const isVerifyRefresh = async (refreshToken) => {
   return refreshToken === redisToken
 }
 
+// 토큰정보 가져오기
 const getSignData = (token) => {
   const { data } = jwt.verify(token, process.env.SALT_JWT)
   return data

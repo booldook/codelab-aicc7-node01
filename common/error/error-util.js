@@ -1,3 +1,13 @@
+/**
+ * 200: 성공
+ * 400: 필수 파라미터 누락
+ *  -> UI처리를 위해 200으로 전송하는 케이스도 있음 (비지니스에러)
+ * 401: AccessToken 검증 실패
+ * 403: 미인증 상태 (RefreshToken만료, 접근 불가)
+ * 404: 잘못된 주소 접근
+ * 500: 서버에러(서버점검, 네트워크점검 필요)
+ */
+
 const { isProd } = require("../module/util")
 
 const error = (errCode, status) => {
@@ -41,7 +51,15 @@ const error = (errCode, status) => {
         break
       case "TOKEN_VERIFY_FAIL":
         message = "토큰검증실패"
+        code = 403
+        break
+      case "ACCESS_TOKEN_VERIFY_FAIL":
+        message = "엑세스토큰 검증 실패"
         code = 401
+        break
+      case "IS_NOT_ADMIN":
+        message = "관리자 권한이 없습니다."
+        code = 403
         break
       default:
         break
