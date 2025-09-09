@@ -39,6 +39,10 @@ const error = (errCode, status) => {
         message = "아이디와 패스워드를 확인하세요."
         code = 200
         break
+      case "TOKEN_VERIFY_FAIL":
+        message = "토큰검증실패"
+        code = 401
+        break
       default:
         break
     }

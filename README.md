@@ -1,3 +1,5 @@
+## .env
+
 host="127.0.0.1"
 port="3000"
 
@@ -13,6 +15,24 @@ SALT_RND=7
 SALT_JWT="fkd_sd-jFLk864w"
 EXP_ACC_JWT="10m"
 EXP_REF_JWT="3h"
+
+## debugger setting.json
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Nodemon",
+      "port": 9229,
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}
+```
 
 # 백엔드
 

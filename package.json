@@ -4,10 +4,9 @@
   "description": "- 정보를 제공하는 기술",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon app06.js",
-    "prd": "cross-env NODE_ENV=production nodemon app06.js",
-    "start": "cross-env NODE_ENV=production pm2 start app.js -i2",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env NODE_ENV=development nodemon --inspect app.js",
+    "prd": "cross-env NODE_ENV=production nodemon app.js",
+    "start": "cross-env NODE_ENV=production pm2 start app.js -i2"
   },
   "repository": {
     "type": "git",

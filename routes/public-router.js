@@ -47,7 +47,7 @@ router.post("/login", loginUser(), (req, res, next) => {
 })
 
 router.post("/refresh", refreshToken(), (req, res, next) => {
-  res.status(200).json({ success: "OK", data: req.data })
+  res.status(200).json({ success: "OK", data: req.token })
 })
 
 module.exports = router

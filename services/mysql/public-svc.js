@@ -1,7 +1,11 @@
 const error = require("../../common/error/error-util")
 const { pool } = require("../../common/module/mysql-conn")
 const bcrypt = require("bcrypt")
-const { isVerifyRefresh, updateToken } = require("../../common/module/token")
+const {
+  isVerifyRefresh,
+  updateToken,
+  getSignData,
+} = require("../../common/module/token")
 // const jwt = require("jsonwebtoken")
 // const sqlstring = require("sqlstring")
 // const Redis = require("ioredis")
@@ -13,10 +17,11 @@ const refreshToken = () => {
     try {
       {
         // 갱신
-        if (isVerifyRefresh(refreshToken)) {
-          req.token = { ...updateToken(refreshToken) }
-          next()
+        if (await isVerifyRefresh(refreshToken)) {
+          req.token = { ...updateToken(getSignData(refreshToken)) }
+          return next()
         }
+        next(error("TOKEN_VERIFY_FAIL"))
       }
     } catch (err) {
       next(error(err, 401))

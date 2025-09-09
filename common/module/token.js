@@ -9,19 +9,21 @@ const updateToken = (signData) => {
     expiresIn: process.env.EXP_REF_JWT,
   })
   const redis = new Redis()
-  if (!signData.usrId) throw new Error("Redis Key undefined")
-  redis.set(`RT:${signData.usrId}`, refreshToken)
+  if (!signData.data.usrId) throw new Error("Redis Key undefined")
+  redis.set(`RT:${signData.data.usrId}`, refreshToken)
   return { accessToken, refreshToken }
 }
 
 const isVerifyRefresh = async (refreshToken) => {
   const clientTokenValid = jwt.verify(refreshToken, process.env.SALT_JWT)
   const usrId = clientTokenValid?.data?.usrId || ""
+
   const redis = new Redis()
   const redisToken = await redis.get(`RT:${usrId}`)
   jwt.verify(redisToken, process.env.SALT_JWT)
   return refreshToken === redisToken
 }
 
-module.exports = { updateToken, isVerifyRefresh }
-export { updateToken, isVerifyRefresh }
+const getSignData = (token) => jwt.verify(token, process.env.SALT_JWT)
+
+module.exports = { updateToken, isVerifyRefresh, getSignData }
