@@ -8,6 +8,10 @@ const Redis = require("ioredis")
 // TODO :: refreshToken 갱신
 const refreshToken = () => {
   return async (req, res, next) => {
+    const { refreshToken } = req.body
+    console.log(refreshToken)
+    const decode = jwt.verify(refreshToken, process.env.SALT_JWT)
+    console.log(decode)
     next()
   }
 }
@@ -58,7 +62,6 @@ const loginUser = () => {
       const sql = `SELECT * FROM user WHERE usr_id=?`
       const [rs] = await pool.execute(sql, [usrId])
       if (rs[0]) {
-        console.log(rs[0])
         const compare = await bcrypt.compare(usrPw, rs[0].usr_pw)
         if (compare) {
           // 로그인 성공

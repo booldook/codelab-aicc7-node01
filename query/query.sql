@@ -30,3 +30,12 @@ CREATE TABLE `user` (
 )
 COLLATE='utf8mb4_general_ci'
 ;
+
+SELECT  COUNT(id) AS count FROM  user WHERE  usr_id='a' OR usr_email='a';
+
+
+
+
+
+
+
