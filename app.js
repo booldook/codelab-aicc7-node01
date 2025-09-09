@@ -16,9 +16,10 @@ app.use("/", express.static("./public"))
 const shopRouter = require("./routes/shop-router")
 const bookRouter = require("./routes/book-router")
 const publicRouter = require("./routes/public-router")
+const { isApi } = require("./middlewares/auth-mw")
 
-app.use("/shop", shopRouter)
-app.use("/book", bookRouter)
+app.use("/shop", isApi(), shopRouter)
+app.use("/book", isApi(), bookRouter)
 app.use("/public", publicRouter)
 
 app.use(notFoundRouter)
