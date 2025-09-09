@@ -1,12 +1,17 @@
-const error = (errCode) => {
+const error = (errCode, status) => {
+  const err = new Error()
   if (Array.isArray(errCode)) {
-    // express-validator Error
-    const err = new Error("유효성 검사 실패")
+    // express-validation 에서 오는 에러일때
+    err.message = "유효성 검사 실패"
     err.status = 400
     err.data = errCode
     return err
+  } else if (errCode instanceof Error) {
+    // errCode 자체가 에러객체일때
+    errCode.status = status || 500
+    return errCode
   } else {
-    // my Error
+    // My Error - 규격화
     let message = "UNKNOWN ERROR"
     let code = 500
     switch (errCode) {
@@ -25,7 +30,7 @@ const error = (errCode) => {
       default:
         break
     }
-    const err = new Error(message)
+    err.message = message
     err.status = code
     return err
   }

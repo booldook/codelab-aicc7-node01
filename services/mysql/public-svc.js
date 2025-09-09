@@ -9,9 +9,15 @@ const Redis = require("ioredis")
 const refreshToken = () => {
   return async (req, res, next) => {
     const { refreshToken } = req.body
-    console.log(refreshToken)
-    const decode = jwt.verify(refreshToken, process.env.SALT_JWT)
-    console.log(decode)
+    try {
+      const redis = new Redis()
+      const decodeClient = jwt.verify(refreshToken, process.env.SALT_JWT)
+      console.log(decodeClient)
+
+      const redisToken = redis.get(`RT:${signData.usrId}`)
+    } catch (err) {
+      next(error(err, 401))
+    }
     next()
   }
 }
