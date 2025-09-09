@@ -1,20 +1,23 @@
 const error = require("../../common/error/error-util")
 const { pool } = require("../../common/module/mysql-conn")
 const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
-const sqlstring = require("sqlstring")
-const Redis = require("ioredis")
+const { isVerifyRefresh, updateToken } = require("../../common/module/token")
+// const jwt = require("jsonwebtoken")
+// const sqlstring = require("sqlstring")
+// const Redis = require("ioredis")
 
 // TODO :: refreshToken 갱신
 const refreshToken = () => {
   return async (req, res, next) => {
     const { refreshToken } = req.body
     try {
-      const redis = new Redis()
-      const decodeClient = jwt.verify(refreshToken, process.env.SALT_JWT)
-      console.log(decodeClient)
-
-      const redisToken = redis.get(`RT:${signData.usrId}`)
+      {
+        // 갱신
+        if (isVerifyRefresh(refreshToken)) {
+          req.token = { ...updateToken(refreshToken) }
+          next()
+        }
+      }
     } catch (err) {
       next(error(err, 401))
     }
@@ -39,13 +42,6 @@ const createUser = () => {
         (usr_id, usr_pw, usr_nm, usr_email) 
       VALUES 
         (?, ?, ?, ?)`
-      const formattedSql = sqlstring.format(sqlIsert, [
-        usrId,
-        usrPwHash,
-        usrNm,
-        usrEmail,
-      ])
-      console.log(formattedSql)
       const [rsInsert] = await pool.execute(sqlIsert, [
         usrId,
         usrPwHash,
@@ -55,8 +51,7 @@ const createUser = () => {
       req.rs = rsInsert
       return next()
     } catch (err) {
-      console.log(err)
-      return next(error("BAD_PARAMS"))
+      return next(error(err))
     }
   }
 }
@@ -83,26 +78,14 @@ const loginUser = () => {
             usrLv: rs[0].usr_lv,
             usrDt: rs[0].created_dt,
           }
-          const accessToken = jwt.sign(
-            { data: signData },
-            process.env.SALT_JWT,
-            { expiresIn: process.env.EXP_ACC_JWT }
-          )
-          const refreshToken = jwt.sign(
-            { data: signData },
-            process.env.SALT_JWT,
-            { expiresIn: process.env.EXP_REF_JWT }
-          )
-          const redis = new Redis()
-          redis.set(`RT:${signData.usrId}`, refreshToken)
+          const { accessToken, refreshToken } = updateToken(signData)
           req.users = { user: userData, accessToken, refreshToken }
           return next()
         }
       }
       return next(error("LOGIN_FAIL"))
     } catch (err) {
-      console.log(err)
-      return next(error("BAD_PARAMS"))
+      return next(error(err))
     }
   }
 }

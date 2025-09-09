@@ -25,7 +25,7 @@ const bookList = ({ field = "id", sort = "DESC" } = {}) => {
       req.rs = rs || []
       next()
     } catch (err) {
-      next(error("BAD_PARAMS"))
+      next(error(err))
     }
   }
 }
@@ -48,8 +48,7 @@ const bookCreate = () => {
       req.rs = rs
       next()
     } catch (err) {
-      console.log(err)
-      next(error("BAD_PARAMS"))
+      next(error(err))
     }
   }
 }

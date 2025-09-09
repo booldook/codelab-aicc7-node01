@@ -1,3 +1,5 @@
+const { isProd } = require("../module/util")
+
 const error = (errCode, status) => {
   const err = new Error()
   if (Array.isArray(errCode)) {
@@ -9,6 +11,16 @@ const error = (errCode, status) => {
   } else if (errCode instanceof Error) {
     // errCode 자체가 에러객체일때
     errCode.status = status || 500
+    if (!isProd() && errCode.sql) {
+      errCode.data = {
+        message: errCode?.message || "",
+        code: errCode?.code || "",
+        errno: errCode?.errno || "",
+        sqlMessage: errCode?.sqlMessage || "",
+        sqlState: errCode?.sqlState || "",
+        sql: errCode?.sql || "",
+      }
+    }
     return errCode
   } else {
     // My Error - 규격화

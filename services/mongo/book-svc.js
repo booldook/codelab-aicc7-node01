@@ -12,7 +12,7 @@ const bookList = ({ field = "id", sort = "DESC" } = {}) => {
       // mongoose()
       next()
     } catch (err) {
-      next(error("BAD_PARAMS"))
+      next(error(err))
     }
   }
 }
