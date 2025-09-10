@@ -39,7 +39,7 @@ const bookCreate = () => {
             (title, content, writer, publish_d)
           VALUES
             (?, ?, ?, ?)`
-      const [rs] = await pool.execute(sql, [
+      const [rs] = await pool.execut(sql, [
         title,
         content,
         writer || null,

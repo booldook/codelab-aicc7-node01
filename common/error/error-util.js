@@ -15,7 +15,7 @@ const error = (errCode, status) => {
   if (Array.isArray(errCode)) {
     // express-validation 에서 오는 에러일때
     err.message = "유효성 검사 실패"
-    err.status = 400
+    err.status = 200
     err.data = errCode
     return err
   } else if (errCode instanceof Error) {
@@ -39,7 +39,7 @@ const error = (errCode, status) => {
     switch (errCode) {
       case "BAD_PARAMS":
         message = "파라메터가 잘못되었습니다."
-        code = 400
+        code = 200
         break
       case "EXIST_USER":
         message = "기존 회원 정보가 있습니다."
@@ -59,7 +59,7 @@ const error = (errCode, status) => {
         break
       case "IS_NOT_ADMIN":
         message = "관리자 권한이 없습니다."
-        code = 403
+        code = 200
         break
       default:
         break
