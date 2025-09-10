@@ -35,11 +35,11 @@ const bookCreate = () => {
     try {
       const { title, content, writer, publish_d } = req.body
       const sql = ` 
-          INSERT INTO book
+          INSERT INTO booK
             (title, content, writer, publish_d)
           VALUES
             (?, ?, ?, ?)`
-      const [rs] = await pool.execut(sql, [
+      const [rs] = await pool.execute(sql, [
         title,
         content,
         writer || null,

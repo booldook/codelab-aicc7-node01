@@ -4,7 +4,11 @@ const error = require("../common/error/error-util")
 const isApi = () => {
   return (req, res, next) => {
     try {
+      if (!req.headers?.authorization) {
+        return next(error("TOKEN_VERIFY_FAIL"))
+      }
       const [, token] = (req.headers?.authorization || "").split("Bearer ")
+      console.log("TOKEN", token)
       const verifyResult = getSignData(token)
       return verifyResult ? next() : next(error("ACCESS_TOKEN_VERIFY_FAIL"))
     } catch (err) {
