@@ -12,18 +12,24 @@ const nanoid = require("nanoid")
 
 // storages/book/20250910/00/
 const destination = async (req, file, cb) => {
-  cb(null, "/tmp/my-uploads")
+  console.log("dest", file, req.baseUrl)
+
+  const destPath = path.join(__dirname, "../", "storages", req.baseUrl)
+
+  cb(null, destPath)
 }
 
 // book_20250910_00_timestamp_(nanoid).ext
 const filename = async (req, file, cb) => {
+  console.log("filename", file)
   cb(null, file.fieldname + "-" + Date.now())
 }
 
 const fileFilter = async (req, file, cb) => {
-  cb(null, false)
+  console.log("filter", file)
   cb(null, true)
-  cb(new Error("I don't have a clue!"))
+  // cb(null, false)
+  // cb(new Error("I don't have a clue!"))
 }
 
 const storage = multer.diskStorage({ destination, filename })

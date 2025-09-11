@@ -7,7 +7,7 @@ const {
   bookList,
   bookCreate,
 } = require(`../services/${process.env.DBMS}/book-svc`)
-const error = require("../common/error/error-util")
+const multer = require("../middlewares/multer-mw")
 
 // /book, /book/1, /book?page=1
 router.get("/{:id}", bookList(), async (req, res, next) => {
@@ -23,5 +23,9 @@ router.post(
     res.status(200).json({ success: "OK" })
   }
 )
+
+router.post("/upload", multer.single("upfile"), function (req, res, next) {
+  res.status(200).json({ file: req.file })
+})
 
 module.exports = router
