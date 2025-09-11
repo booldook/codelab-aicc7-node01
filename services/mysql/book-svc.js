@@ -36,29 +36,25 @@ const bookCreate = () => {
       const file = req.file
       const { title, content, writer, publish_d } = req.body
       const sql = ` 
-      INSERT INTO booK
-        (title, content, writer, publish_d)
-      VALUES
-        (?, ?, ?, ?)`
+        INSERT INTO booK (title, content, writer, publish_d)
+        VALUES (?, ?, ?, ?)`
       const [rs] = await pool.execute(sql, [
         title,
         content,
         writer || null,
         publish_d || null,
       ])
-      const sql2 = `
-      INSERT INTO pds
-            (original_nm, file_nm, file_typ, book_id)
-      VALUES
-        (?, ?, ?, ?)`
-      // const [rs2] = await pool.execute(sql2, [
-      //   title,
-      //   content,
-      //   writer || null,
-      //   publish_d || null,
-      // ])
-      console.log(rs, file)
-      req.rs = rs
+      if (file) {
+        const sql2 = `
+          INSERT INTO pds (origin_nm, file_nm, file_typ, book_id)
+          VALUES (?, ?, ?, ?)`
+        await pool.execute(sql2, [
+          file.originalname,
+          file.filename,
+          file.mimetype,
+          rs.insertId,
+        ])
+      }
       next()
     } catch (err) {
       next(error(err))

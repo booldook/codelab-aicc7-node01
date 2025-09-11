@@ -17,8 +17,8 @@ router.get("/{:id}", bookList(), async (req, res, next) => {
 
 router.post(
   "/",
-  bookCreateValidation(),
   multer.single("upfile"),
+  bookCreateValidation(),
   bookCreate(),
   async (req, res, next) => {
     res.status(200).json({ success: "OK" })

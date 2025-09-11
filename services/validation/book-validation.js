@@ -10,7 +10,9 @@ const bookCreateValidation = () => {
     (req, res, next) => {
       const err = validationResult(req)
       if (err.isEmpty()) next()
-      else next(error(err.array()))
+      else {
+        next(error(err.array()))
+      }
     },
   ]
 }
