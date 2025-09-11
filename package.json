@@ -36,6 +36,7 @@
     "mysql2": "^3.14.4",
     "nanoid": "^3.3.11",
     "redis": "^5.8.2",
+    "sharp": "^0.34.3",
     "uuid": "^11.1.0"
   },
   "devDependencies": {

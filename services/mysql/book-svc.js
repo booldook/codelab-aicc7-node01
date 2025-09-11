@@ -1,6 +1,7 @@
 const error = require("../../common/error/error-util")
 const { pool } = require("../../common/module/mysql-conn")
 const sqlstring = require("sqlstring")
+const { createVirtualPath } = require("../../common/module/util")
 
 // const formattedSql = sqlstring.format(sql, [])
 // console.log(formattedSql)
@@ -22,8 +23,12 @@ const bookList = ({ field = "id", sort = "DESC" } = {}) => {
       if (id) sql += ` WHERE b.id = ? `
       sql += ` ORDER BY b.${field} ${sort} `
       sql += ` LIMIT ${(page - 1) * pageCnt}, ${pageCnt} `
-      console.log(sql)
       const [rs] = await pool.execute(sql, id ? [id] : [])
+      for (const book of rs) {
+        if ((book.file_typ || "").includes("image")) {
+          book.imgSrc = createVirtualPath(book.file_nm)
+        }
+      }
       req.rs = rs || []
       next()
     } catch (err) {

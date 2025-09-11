@@ -18,4 +18,9 @@ const createFileNm = (uploadUrl, originalNm) => {
   )}_${Date.now()}_${nanoid()}${ext}`
 }
 
-module.exports = { isProd, uploadPath, createFileNm }
+const createVirtualPath = (fileNm) => {
+  const arr = fileNm.split("_")
+  return "/upload/" + arr[0] + "/" + arr[1] + "/" + arr[2] + "/" + fileNm
+}
+
+module.exports = { isProd, uploadPath, createFileNm, createVirtualPath }
