@@ -7,47 +7,44 @@
 const path = require("path")
 const multer = require("multer")
 const fs = require("fs-extra")
-const moment = require("moment")
-const { nanoid } = require("nanoid")
+const { uploadPath, createFileNm } = require("../common/module/util")
+const extWhiteList = [
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".gif",
+  ".zip",
+  ".pptx",
+  ".txt",
+  ".xlsx",
+  ".docx",
+  ".ppt",
+  ".xls",
+  ".doc",
+  ".hwp",
+  ".pdf",
+]
 
 // C:/.../storages/book/20250910/00/ -> realPath(절대경로)
 // /upload/storages/book/20250910/00/ -> virtualPath(운영APP)
 const destination = async (req, file, cb) => {
-  const rPath = req.baseUrl
-  const dPath = moment().format("YYYYMMDD/HH")
-  const uploadPath = path.join(__dirname, "../", "storages", rPath, dPath)
-  req.uploadPath = uploadPath
-  await fs.ensureDir(req.uploadPath)
-  console.log("destination", req.uploadPath)
-  cb(null, req.uploadPath)
+  const upPath = uploadPath(__dirname, "../storages", req.baseUrl)
+  req.uploadPath = upPath
+  await fs.ensureDir(upPath)
+  cb(null, upPath)
 }
 
-// timestamp_(nanoid).ext
+// book_20250910_00_timestamp_(nanoid).ext
 const filename = (req, file, cb) => {
-  console.log("filename :: ", req.uploadPath)
-  const ext = file.originalname.split(".")
-  const destArr = req.uploadPath.split("\\")
-  let filename =
-    destArr[destArr.length - 3] +
-    "_" +
-    destArr[destArr.length - 2] +
-    "_" +
-    destArr[destArr.length - 1] +
-    "_" +
-    Date.now() +
-    "_" +
-    nanoid() +
-    "." +
-    ext[ext.length - 1]
-  console.log("filename2 :: ", filename)
-  cb(null, filename)
+  const fileNm = createFileNm(req.uploadPath, file.originalname)
+  cb(null, fileNm)
 }
 
 const fileFilter = (req, file, cb) => {
-  console.log("filter", file)
-  cb(null, true)
-  // cb(null, false)
-  // cb(new Error("I don't have a clue!"))
+  const isAllow = extWhiteList.includes(
+    path.extname(file.originalname).toLowerCase()
+  )
+  cb(null, isAllow)
 }
 
 const storage = multer.diskStorage({ destination, filename })

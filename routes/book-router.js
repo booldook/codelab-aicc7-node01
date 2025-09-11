@@ -18,14 +18,15 @@ router.get("/{:id}", bookList(), async (req, res, next) => {
 router.post(
   "/",
   bookCreateValidation(),
+  multer.single("upfile"),
   bookCreate(),
   async (req, res, next) => {
     res.status(200).json({ success: "OK" })
   }
 )
 
-router.post("/upload", multer.single("upfile"), function (req, res, next) {
-  res.status(200).json({ file: req.file })
-})
+// router.post("/upload", multer.single("upfile"), function (req, res, next) {
+//   res.status(200).json({ file: req.file })
+// })
 
 module.exports = router
