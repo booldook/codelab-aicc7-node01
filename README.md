@@ -209,6 +209,26 @@ COLLATE='utf8mb4_general_ci'
 ;
 ```
 
+### moment
+
+```js
+app.get("/moment", (req, res, next) => {
+  // YYYY-MM-DD HH:mm:ss d(요일)
+  // 2000-11-10T15:00:00.000Z
+  // const result = moment()
+  //2011-01-09T15:00:00.000Z
+  // const result = moment("20110110")
+  // 2025년 09월 11일
+  // const result = moment().format("YYYY-MM월 DD일")
+  // 20250911
+  // const result = moment().format("YYYYMMDD")
+  // 10
+  // const result = moment().format("HH")
+  // const result = moment().add(10, "year")
+  // res.status(200).json({ result })
+})
+```
+
 ### 생활코딩 Database
 
 [생활코딩DB](https://opentutorials.org/course/3162)

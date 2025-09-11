@@ -8,21 +8,37 @@ const path = require("path")
 const multer = require("multer")
 const fs = require("fs-extra")
 const moment = require("moment")
-const nanoid = require("nanoid")
+const { nanoid } = require("nanoid")
 
 // storages/book/20250910/00/
 const destination = async (req, file, cb) => {
   console.log("dest", file, req.baseUrl)
-
-  const destPath = path.join(__dirname, "../", "storages", req.baseUrl)
-
+  const rPath = req.baseUrl
+  const dPath = moment().format("YYYYMMDD/HH")
+  const destPath = path.join(__dirname, "../", "storages", rPath, dPath)
+  await fs.ensureDir(destPath)
+  req.destination = destPath
   cb(null, destPath)
 }
 
 // book_20250910_00_timestamp_(nanoid).ext
 const filename = async (req, file, cb) => {
   console.log("filename", file)
-  cb(null, file.fieldname + "-" + Date.now())
+  const ext = file.originalname.split(".")
+  const destArr = req.destination.split("/")
+  let filename =
+    destArr.at(-3) +
+    "_" +
+    destArr.at(-2) +
+    "_" +
+    destArr.at(-1) +
+    "_" +
+    Date.now() +
+    "_" +
+    nanoid() +
+    "." +
+    ext.at(-1)
+  cb(null, filename)
 }
 
 const fileFilter = async (req, file, cb) => {
