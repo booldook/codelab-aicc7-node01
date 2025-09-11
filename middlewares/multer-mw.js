@@ -10,23 +10,20 @@ const fs = require("fs-extra")
 const moment = require("moment")
 const { nanoid } = require("nanoid")
 
-const multerPreload = (req, res, next) => {
-  // C:/.../storages/book/20250910/00/ -> realPath(절대경로)
-  // /upload/storages/book/20250910/00/ -> virtualPath(운영APP)
+// C:/.../storages/book/20250910/00/ -> realPath(절대경로)
+// /upload/storages/book/20250910/00/ -> virtualPath(운영APP)
+const destination = async (req, file, cb) => {
   const rPath = req.baseUrl
   const dPath = moment().format("YYYYMMDD/HH")
   const uploadPath = path.join(__dirname, "../", "storages", rPath, dPath)
   req.uploadPath = uploadPath
-  next()
-}
-
-const destination = async (req, file, cb) => {
+  await fs.ensureDir(req.uploadPath)
   console.log("destination", req.uploadPath)
   cb(null, req.uploadPath)
 }
 
 // timestamp_(nanoid).ext
-const filename = async (req, file, cb) => {
+const filename = (req, file, cb) => {
   console.log("filename :: ", req.uploadPath)
   const ext = file.originalname.split(".")
   const destArr = req.uploadPath.split("\\")
@@ -46,7 +43,7 @@ const filename = async (req, file, cb) => {
   cb(null, filename)
 }
 
-const fileFilter = async (req, file, cb) => {
+const fileFilter = (req, file, cb) => {
   console.log("filter", file)
   cb(null, true)
   // cb(null, false)
@@ -56,7 +53,4 @@ const fileFilter = async (req, file, cb) => {
 const storage = multer.diskStorage({ destination, filename })
 const limits = { fileSize: 100 * 1000 * 1024 }
 
-module.exports = {
-  multerPreload,
-  multer: multer({ storage, limits, fileFilter }),
-}
+module.exports = multer({ storage, limits, fileFilter })

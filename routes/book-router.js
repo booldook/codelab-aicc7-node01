@@ -7,7 +7,7 @@ const {
   bookList,
   bookCreate,
 } = require(`../services/${process.env.DBMS}/book-svc`)
-const { multerPreload, multer } = require("../middlewares/multer-mw")
+const multer = require("../middlewares/multer-mw")
 
 // /book, /book/1, /book?page=1
 router.get("/{:id}", bookList(), async (req, res, next) => {
@@ -24,13 +24,8 @@ router.post(
   }
 )
 
-router.post(
-  "/upload",
-  multerPreload,
-  multer.single("upfile"),
-  function (req, res, next) {
-    res.status(200).json({ file: req.file })
-  }
-)
+router.post("/upload", multer.single("upfile"), function (req, res, next) {
+  res.status(200).json({ file: req.file })
+})
 
 module.exports = router

@@ -227,6 +227,16 @@ app.get("/moment", (req, res, next) => {
   // const result = moment().add(10, "year")
   // res.status(200).json({ result })
 })
+
+const multerPreload = (req, res, next) => {
+  // C:/.../storages/book/20250910/00/ -> realPath(절대경로)
+  // /upload/storages/book/20250910/00/ -> virtualPath(운영APP)
+  const rPath = req.baseUrl
+  const dPath = moment().format("YYYYMMDD/HH")
+  const uploadPath = path.join(__dirname, "../", "storages", rPath, dPath)
+  req.uploadPath = uploadPath
+  next()
+}
 ```
 
 ### 생활코딩 Database
