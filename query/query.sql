@@ -33,6 +33,25 @@ COLLATE='utf8mb4_general_ci'
 
 SELECT  COUNT(id) AS count FROM  user WHERE  usr_id='a' OR usr_email='a';
 
+INSERT INTO book
+      (title, content)
+    VALUES
+      ('별주부전', '토끼의 간을 용왕이...');
+# DELETE, UPDATE는 꼭 where절을 동반해야한다. 
+DELETE FROM book WHERE id=4;
+UPDATE book SET title='1111', writer=`허생` WHERE id='4';
+
+# 두 테이블의 만남(join)
+SELECT * FROM book ORDER BY id DESC LIMIT 0, 100;
+SELECT * FROM pds WHERE book_id=31;
+
+SELECT b.*, p.*, p.id AS pid FROM book AS b 
+LEFT JOIN pds AS p 
+ON b.id = p.book_id 
+ORDER BY b.id DESC LIMIT 0, 100;
+
+
+
 
 
 

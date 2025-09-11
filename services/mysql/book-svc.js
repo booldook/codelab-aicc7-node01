@@ -17,10 +17,12 @@ const bookList = ({ field = "id", sort = "DESC" } = {}) => {
       const pageCnt = 10
       const { page = 1 } = req.query
       const { id } = req.params
-      let sql = ` SELECT * FROM book `
-      if (id) sql += ` WHERE id = ? `
-      sql += ` ORDER BY ${field} ${sort} `
+      let sql = ` SELECT p.*, b.*, p.id AS pid FROM book AS b `
+      sql += ` LEFT JOIN pds AS p ON b.id = p.book_id `
+      if (id) sql += ` WHERE b.id = ? `
+      sql += ` ORDER BY b.${field} ${sort} `
       sql += ` LIMIT ${(page - 1) * pageCnt}, ${pageCnt} `
+      console.log(sql)
       const [rs] = await pool.execute(sql, id ? [id] : [])
       req.rs = rs || []
       next()
